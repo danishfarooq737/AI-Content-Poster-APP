@@ -1,0 +1,58 @@
+# Brings up the full stack (database + API + web app) with one command:
+#   docker compose up --build
+#
+# Frontend will be reachable at http://localhost:8080
+# Backend API directly at      http://localhost:5000/api
+#
+# Backend secrets/credentials come from backend/.env (never baked into images).
+# Frontend build-time variables come from frontend/.env if present (see
+# frontend/.env.example) - not required for this Docker setup since nginx
+# proxies /api to the backend container automatically.
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    env_file:
+      - ./backend/.env
+    environment:
+      # Inside the compose network, the backend must reach Mongo by service
+      # name, and the frontend is served on 8080 externally - both override
+      # whatever backend/.env has for local (non-Docker) dev.
+      MONGODB_URI: mongodb://mongo:27017/viralpost
+      CORS_ORIGIN: http://localhost:8080
+    ports:
+      - '5000:5000'
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:5000/api/health', r => process.exit(r.statusCode===200?0:1)).on('error', ()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - '8080:80'
+
+volumes:
+  mongo_data:

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { Library, Trash2, CalendarPlus, Pencil, Scissors, Music2, Youtube, Instagram } from 'lucide-react';
+import { Library, Trash2, CalendarPlus, Pencil, Scissors, Youtube, Instagram } from 'lucide-react';
+import { FaTiktok } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import Skeleton from '../components/Skeleton';
 import EmptyState from '../components/EmptyState';
@@ -178,7 +179,7 @@ function EditModal({ item, onClose, onSaved }) {
 
         <div className="rounded-lg border border-border p-4">
           <p className="mb-3 flex items-center gap-2 text-sm font-medium text-text-primary">
-            <Music2 className="h-4 w-4" /> TikTok
+            <FaTiktok className="h-4 w-4" /> TikTok
           </p>
           <label className="label">Caption (title + hashtags)</label>
           <textarea

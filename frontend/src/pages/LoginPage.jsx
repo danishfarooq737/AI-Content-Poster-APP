@@ -78,11 +78,6 @@ export default function LoginPage() {
           Sign up
         </Link>
       </p>
-      <div className="mt-8 rounded-lg border border-border bg-bg-surface px-4 py-3 text-xs text-text-secondary">
-        <p className="mb-1 font-medium text-text-primary">Demo credentials (after running the seed script)</p>
-        <p className="font-mono">admin@viralpost.dev / AdminPass123</p>
-        <p className="font-mono">creator@viralpost.dev / CreatorPass123</p>
-      </div>
     </AuthLayout>
   );
 }

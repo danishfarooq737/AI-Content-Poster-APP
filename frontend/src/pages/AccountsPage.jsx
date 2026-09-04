@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { Share2, Trash2, ExternalLink, AlertTriangle } from 'lucide-react';
+import { Trash2, ExternalLink, AlertTriangle } from 'lucide-react';
+import { FaTiktok, FaYoutube, FaInstagram } from 'react-icons/fa6';
 import StatusBadge from '../components/StatusBadge';
 import Skeleton from '../components/Skeleton';
 import { platformService } from '../services/platformService';
 
 const PROVIDER_META = {
-  tiktok: { label: 'TikTok', color: 'from-[#ff0050] to-[#00f2ea]' },
-  youtube: { label: 'YouTube', color: 'from-[#ff0000] to-[#ff5e5e]' },
-  instagram: { label: 'Instagram', color: 'from-[#833ab4] via-[#fd1d1d] to-[#fcb045]' },
+  tiktok: { label: 'TikTok', color: 'from-[#ff0050] to-[#00f2ea]', Icon: FaTiktok },
+  youtube: { label: 'YouTube', color: 'from-[#ff0000] to-[#ff5e5e]', Icon: FaYoutube },
+  instagram: { label: 'Instagram', color: 'from-[#833ab4] via-[#fd1d1d] to-[#fcb045]', Icon: FaInstagram },
 };
 
 export default function AccountsPage() {
@@ -77,7 +78,7 @@ export default function AccountsPage() {
                 className="card flex flex-col"
               >
                 <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br ${meta.color}`}>
-                  <Share2 className="h-4.5 w-4.5 text-white" />
+                  <meta.Icon className="h-5 w-5 text-white" />
                 </div>
                 <h3 className="font-display font-semibold text-text-primary">{meta.label}</h3>
 
